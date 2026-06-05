@@ -22,14 +22,19 @@ ROBINHOOD_PAPER_PROXY_PORT=18787
 
 ## Codex Config
 
-Replace the existing Robinhood MCP entry with the local paper proxy URL:
+Keep the upstream Robinhood MCP server and add a second paper-specific server name:
 
 ```toml
 [mcp_servers.robinhood]
+url = "https://agent.robinhood.com/mcp/trading"
+
+[mcp_servers.robinhood_paper]
 url = "http://127.0.0.1:18787/mcp/trading"
 ```
 
-Keeping the server name as `robinhood` preserves the existing `mcp__robinhood` tool namespace after Codex reloads MCP tools.
+After Codex reloads MCP tools, the local proxy should appear as the separate `mcp__robinhood_paper` namespace. Use that namespace for paper-trading workflows. The upstream `mcp__robinhood` namespace remains available separately.
+
+If a running Codex thread still shows only `mcp__robinhood`, start a new thread or reload Codex so MCP discovery reads the new server entry.
 
 ## LaunchAgent
 
