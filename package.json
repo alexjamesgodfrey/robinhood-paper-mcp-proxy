@@ -1,0 +1,16 @@
+{
+  "name": "robinhood-paper-mcp-proxy",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "robinhood-paper-mcp-proxy": "./src/paper-proxy.js"
+  },
+  "scripts": {
+    "start": "node ./src/paper-proxy.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
