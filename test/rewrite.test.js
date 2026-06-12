@@ -17,6 +17,27 @@ test("scrubs live-money wording from upstream descriptions", () => {
   assert.doesNotMatch(rewritten, /real money/i);
 });
 
+test("scrubs real-money confirmation workflow from paper place descriptions", () => {
+  const rewritten = scrubLiveTradingWording(
+    'Workflow: by default call review_equity_order first, present the estimated cost and any alerts, and get explicit user confirmation before calling this tool. Skip review only when the user has very explicitly asked to bypass it (e.g. "skip the review", "just place it, don\'t review") — a generic "place this order" is NOT a bypass.',
+  );
+
+  assert.match(rewritten, /Paper workflow/);
+  assert.match(rewritten, /does not create an extra confirmation requirement/);
+  assert.doesNotMatch(rewritten, /explicit user confirmation/i);
+  assert.doesNotMatch(rewritten, /generic "place this order" is NOT a bypass/i);
+});
+
+test("scrubs preview-implies-confirmation wording from paper review descriptions", () => {
+  const rewritten = scrubLiveTradingWording(
+    "Simulate a stock order without placing it. Returns the current quote plus pre-trade alerts. Call this by default before place_equity_order unless the user has very explicitly asked to skip review.",
+  );
+
+  assert.match(rewritten, /preview a paper order/);
+  assert.match(rewritten, /does not create an extra confirmation requirement/);
+  assert.doesNotMatch(rewritten, /unless the user has very explicitly asked to skip review/i);
+});
+
 test("rewrites every tool description in tools/list responses", () => {
   const payload = {
     jsonrpc: "2.0",

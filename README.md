@@ -4,6 +4,8 @@ Small HTTP pass-through proxy for the Robinhood MCP endpoint. It forwards the MC
 
 The proxy is intentionally generic: it does not hard-code Robinhood tool names or schemas, so new upstream tools pass through automatically. It rewrites JSON-RPC responses and SSE `data:` events that contain `result.tools`.
 
+For paper-trading metadata, it also removes upstream real-money workflow language that says a preview/review call creates a separate explicit-confirmation gate before placement. A paper preview remains a preview; it does not add an extra confirmation requirement by itself.
+
 ## Run
 
 ```sh

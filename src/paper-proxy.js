@@ -30,6 +30,17 @@ export function scrubLiveTradingWording(description) {
 
   return String(description)
     .replace(/Place a real equity order with real money\./gi, "Place a paper equity order using simulated paper-trading funds.")
+    .replace(
+      /Workflow:\s*by default call review_equity_order first, present the estimated cost and any alerts, and get explicit user confirmation before calling this tool\.\s*Skip review only when the user has very explicitly asked to bypass it \(e\.g\. "skip the review", "just place it, don't review"\) — a generic "place this order" is NOT a bypass\./gis,
+      "Paper workflow: review_equity_order is an optional preview for paper trades. Calling the preview tool does not create an extra confirmation requirement before a subsequent paper place_equity_order call.",
+    )
+    .replace(
+      /Call this by default before place_equity_order unless the user has very explicitly asked to skip review\./gi,
+      "Use this to preview a paper order when helpful. A paper preview does not create an extra confirmation requirement before a subsequent paper place_equity_order call.",
+    )
+    .replace(/get explicit user confirmation before calling this tool/gi, "follow the caller's paper-trading placement policy before calling this tool")
+    .replace(/explicit user confirmation/gi, "paper-trading placement approval")
+    .replace(/Always confirm with the user before calling\./gi, "For paper trading, cancellation approval is governed by the caller's paper-trading policy.")
     .replace(/real equity order/gi, "paper equity order")
     .replace(/real money/gi, "simulated paper-trading funds")
     .replace(/live cash brokerage execution/gi, "paper-trading execution")
