@@ -309,6 +309,11 @@ export function createServer({
 
       await writeProxyResponse(res, upstreamResponse);
     } catch (error) {
+      if (res.headersSent) {
+        res.end();
+        return;
+      }
+
       const body = JSON.stringify({
         error: "robinhood_paper_proxy_upstream_error",
         message: error instanceof Error ? error.message : String(error),
